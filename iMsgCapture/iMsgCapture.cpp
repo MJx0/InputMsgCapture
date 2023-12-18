@@ -1,7 +1,5 @@
 #include "iMsgCapture.h"
 
-#include <KittyUtils.hpp>
-
 struct InputChannel5_8
 {
     uintptr_t refbase1 = 0, refbase2 = 0;
