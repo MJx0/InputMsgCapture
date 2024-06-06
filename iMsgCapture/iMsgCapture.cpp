@@ -105,7 +105,7 @@ const char* iMsgStatusString(EIMSG_STATUS status)
     return "UNKNOWN";
 }
 
-runLoop::iMsgCapture()
+iMsgCapture::iMsgCapture()
 {
     _consumerFd = 0;
     _pConsumerInputMsg = nullptr;
@@ -117,7 +117,7 @@ runLoop::iMsgCapture()
     _updateInterval = 1000;
 }
 
-std::set<int> runLoop::getAnonUnixSockets() const
+std::set<int> iMsgCapture::getAnonUnixSockets() const
 {
     // SO_DOMAIN = AF_UNIX
     // SO_TYPE = SOCK_SEQPACKET
@@ -176,7 +176,7 @@ std::set<int> runLoop::getAnonUnixSockets() const
     return socketsFds;
 }
 
-bool runLoop::findByMallocScan(const std::set<int>& sockets, const std::vector<std::string> &gameActivites, int *outFd, iMsgEvent **outMsgPtr) const
+bool iMsgCapture::findByMallocScan(const std::set<int>& sockets, const std::vector<std::string> &gameActivites, int *outFd, iMsgEvent **outMsgPtr) const
 {
     if (gameActivites.empty())
         return 0;
@@ -215,7 +215,7 @@ bool runLoop::findByMallocScan(const std::set<int>& sockets, const std::vector<s
     return false;
 }
 
-EIMSG_STATUS runLoop::runLoop(const std::vector<std::string>& gameActivites, bool retryOnFailure, int retrySleepSec)
+EIMSG_STATUS iMsgCapture::runLoop(const std::vector<std::string>& gameActivites, bool retryOnFailure, int retrySleepSec)
 {
     EIMSG_STATUS lastStatus = IMSG_STATUS_NONE;
     char b = 0;
@@ -298,7 +298,7 @@ EIMSG_STATUS runLoop::runLoop(const std::vector<std::string>& gameActivites, boo
     return lastStatus;
 }
 
-void runLoop::runThread(const std::vector<std::string>& gameActivites, bool retryOnFailure, int retrySleepSec)
+void iMsgCapture::runThread(const std::vector<std::string>& gameActivites, bool retryOnFailure, int retrySleepSec)
 {
     std::thread([](iMsgCapture *self, const std::vector<std::string>& gameActivites, bool retryOnFailure, int retrySleepSec)
     {
